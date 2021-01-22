@@ -31,7 +31,7 @@ def getBorrowRatePerBlock(dataset_filename, start_block, end_block):
 def geometricMean(dataset_list):
   return math.prod(dataset_list) ** (1/len(dataset_list))
 
-# Geometric mean to get total return, then convert to APY
+# Geometric mean to get average per block return, then convert to APR
 def getAPRforMonth(dataset_filename, start_block, end_block, expected_blocks_per_year):
   borrow_rate_of_block = getBorrowRatePerBlock(dataset_filename, start_block, end_block)
   avg_borrow_rate_per_block = geometricMean(borrow_rate_of_block)
