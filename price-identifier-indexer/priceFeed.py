@@ -41,8 +41,8 @@ def getAPRforMonth(dataset_filename, start_block, end_block, expected_blocks_per
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Calculate rolling 30 day geometric mean of Compound USDC borrow APR')
     parser.add_argument('dataset_filename', type=str, help='The file of the borrowRatePerBlock dataset')
-    parser.add_argument('--start-block', type=int, help='The block for the DVM price request (end of 30 day period, inclusive)', required=True)
-    parser.add_argument('--end-block', type=int, help='The block at the beginning of the 30 day period (inclusive)', required=True)
+    parser.add_argument('--start-block', type=int, help='The block at the beginning of the 30 day period (inclusive)', required=True)
+    parser.add_argument('--end-block', type=int, help='The block for the DVM price request (end of 30 day period, inclusive)', required=True)
     parser.add_argument('--expected-blocks-per-year', type=int, help='The expected number of ethereum blocks per year.', default=(6533 * 365))
     args = parser.parse_args()
     apr = getAPRforMonth(args.dataset_filename, args.start_block, args.end_block, args.expected_blocks_per_year)
