@@ -69,7 +69,7 @@ const main = async () => {
     priceIdentifierPriceFeed = await createReferencePriceFeedForEmp(Logger, web3, new Networker(Logger), getTime, options.empAddress);
     tradingPricePriceFeed = await createTokenTradingPricePriceFeed(Logger, web3, new Networker(Logger), getTime, options.empAddress)
   } catch (e) {
-    Logger.error(JSON.stringify(e));
+    Logger.error(e.toString());
     Logger.error("Price feed(s) failed to initialize ");
     endProcess();
   }
