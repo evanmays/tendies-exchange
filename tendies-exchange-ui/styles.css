@@ -1,0 +1,12 @@
+/* Colors https://coolors.co/f1e8b8-f9e784-e58f65-d05353-191919 */
+body {
+  font-family: 'Roboto', 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica',
+    'Arial', sans-serif;
+  background-color: #191919;
+  color: white;
+  margin: 0;
+}
+
+a {
+  color: white;
+}
