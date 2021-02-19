@@ -3,14 +3,15 @@ export default function Home() {
     <>
       <h1>Welcome Home&#8230;</h1>
       <p>
-        CAR-USDC-MAR21 is a synthetic future allowing you to
-        hedge on the APR borrow-rates for USDC from Compound.
-        On March 28th, the token resolves to March's average
+        CAR-USDC-MAR21 is a synthetic future,&nbsp;
+        <a href="https://umaproject.org/">built on UMA</a>
+        , allowing you to hedge on the APR borrow-rates for USDC from Compound.
+        On March 28th, the token resolves to March&apos;s average
         borrowing rate.
       </p>
       <p>
         You can use CAR tokens to hedge or speculate on interest rates.
-        If you'd like to hedge, buy or mint $X USD worth of CAR tokens
+        If you&apos;d like to hedge, buy or mint $X USD worth of CAR tokens
         where X is the amount you expect to pay or earn in interest during march.
       </p>
       <p>
@@ -20,7 +21,7 @@ export default function Home() {
       <p>
         The first $100,000 worth of liquidity miners will earn all
         of my UMA developer mining rewards for the lifetime of CAR-USDC-MAR21. I expect this is somewhere
-        around 100% APY although I can't be sure.
+        around 100% APY although I can&apos;t be sure.
       </p>
       <p>
         There may or may not be an NFT
