@@ -27,3 +27,6 @@ serviceAccountKey.json
 
 # Personal scripts
 cloc.bash
+
+# Nextjs
+.next
