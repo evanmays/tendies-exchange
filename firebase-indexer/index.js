@@ -3,7 +3,6 @@ const {
   ExpiringMultiPartyClient,
   Logger,
   Networker,
-  createReferencePriceFeedForEmp,
   delay
 } = require("@uma/financial-templates-lib")
 const Web3 = require('web3');
@@ -18,7 +17,8 @@ const {
   getStats,
   pollSaveToDisk,
   pollUpdates,
-  createTokenTradingPricePriceFeed
+  createTokenTradingPricePriceFeed,
+  createPriceFeedForEmp
 } = require("./helpers.js")
 const DiscordTransport = require('winston-discord-transport').default; //It's an ES module or whatever
 const options = require('./options-processing.js')
@@ -66,7 +66,7 @@ const main = async () => {
   let priceIdentifierPriceFeed = null;
   let tradingPricePriceFeed = null;
   try {
-    priceIdentifierPriceFeed = await createReferencePriceFeedForEmp(Logger, web3, new Networker(Logger), getTime, options.empAddress);
+    priceIdentifierPriceFeed = await createPriceFeedForEmp(Logger, web3, new Networker(Logger), getTime, options.empAddress);
     tradingPricePriceFeed = await createTokenTradingPricePriceFeed(Logger, web3, new Networker(Logger), getTime, options.empAddress)
   } catch (e) {
     Logger.error(e.toString());

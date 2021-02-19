@@ -27,7 +27,7 @@ const deepEqual = (object1, object2) => {
   return true;
 }
 
-const config = {
+const trading_config = {
   ["0xE4256C47a3b27a969F25de8BEf44eCA5F2552bD5".toLowerCase()]: {
     type: "balancer",
     balancerTokenIn: "0x90f802C7E8fb5D40B0De583e34C065A3bd2020D8",
@@ -51,8 +51,21 @@ const config = {
   }
 }
 
+const price_identifier_config = {
+  ["0x14a046c066266da6b8b8C4D2de4AfBEeCd53a262".toLowerCase()]: {
+     type: "uniswap",
+     uniswapAddress: "0xd8ecab1d50c3335d01885c17b1ce498105238f24",
+     twapLength: 7200,
+     lookback: 0
+   },
+}
+
 const createTokenTradingPricePriceFeed = (logger, web3, networker, getTime, empAddress) => {
-    return createPriceFeed(logger, web3, networker, getTime, config[empAddress.toLowerCase()]);
+    return createPriceFeed(logger, web3, networker, getTime, trading_config[empAddress.toLowerCase()]);
+}
+
+const createPriceFeedForEmp = (logger, web3, networker, getTime, empAddress) => {
+    return createPriceFeed(logger, web3, networker, getTime, price_identifier_config[empAddress.toLowerCase()]);
 }
 
 // If we don't want to use firebase, we can write to disk, then serve the disk
@@ -124,4 +137,4 @@ const getStats = (empClient, priceIdentifierPriceFeed, tradingPricePriceFeed, to
   return stats;
 }
 
-module.exports = {deepEqual, writeToDisk_BACKUP, getSponsors, getStats, pollSaveToDisk, pollUpdates, createTokenTradingPricePriceFeed}
+module.exports = {deepEqual, writeToDisk_BACKUP, getSponsors, getStats, pollSaveToDisk, pollUpdates, createTokenTradingPricePriceFeed, createPriceFeedForEmp}
