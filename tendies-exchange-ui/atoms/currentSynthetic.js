@@ -54,7 +54,7 @@ const YD_WETH_MAR21 = {
   minimumMintAmount: 100,
 };
 
-const ALL_EMPS = [CAR_USDC_MAR21, YD_WETH_MAR21];
+const ALL_EMPS = [CAR_USDC_MAR21];
 
 const currentSyntheticAtom = atom({
   key: 'currentSynthetic',
