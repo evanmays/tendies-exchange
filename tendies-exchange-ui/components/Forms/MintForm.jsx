@@ -179,7 +179,12 @@ const MintForm = () => {
   const { addToast } = useToasts();
   const setPendingTransaction = useSetRecoilState(pendingTransactionAtom);
   const handleSubmit = ({ tokenAmount, collateralAmount }, { setSubmitting }) => {
-    if (isApproved) {
+    if (userAddress === '0x0') {
+      addToast("Wallet not connected", {
+        appearance: 'error',
+        autoDismiss: true,
+      });
+    } else if (isApproved) {
       addToast(
         `${tokenAmount.toFixed(2)} CAR minted with expiration date
           ${emp.expiration} and
