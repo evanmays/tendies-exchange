@@ -33,13 +33,13 @@ export default function Home() {
       </p>
       <p>
         Eligibility Steps:
-        <ol>
-          <li>Mint CAR tokens</li>
-          <li>Provide liquidity to the CAR/USDC pool on Uniswap</li>
-          <li>Be among the first $100,000 worth of people to do so</li>
-          <li>Optional: Let me know if you find any bugs! (via Twitter or UMA Discord)</li>
-        </ol>
       </p>
+      <ol>
+        <li>Mint CAR tokens</li>
+        <li>Provide liquidity to the CAR/USDC pool on Uniswap</li>
+        <li>Be among the first $100,000 worth of people to do so</li>
+        <li>Optional: Let me know if you find any bugs! (via Twitter or UMA Discord)</li>
+      </ol>
     </>
   );
 }
