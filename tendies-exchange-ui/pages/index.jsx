@@ -1,4 +1,5 @@
 export default function Home() {
+  const readMore = <p><a href="https://evanmays.com/tendiesexchange.html">Read more here</a></p>
   return (
     <>
       <h1>Welcome Home&#8230;</h1>
@@ -11,12 +12,10 @@ export default function Home() {
       </p>
       <p>
         You can use CAR tokens to hedge or speculate on interest rates.
-        If you&apos;d like to hedge, buy or mint $X USD worth of CAR tokens
+        If you&apos;d like a near perfect hedge, buy or mint $X USD worth of CAR tokens
         where X is the amount you expect to pay or earn in interest during march.
       </p>
-      <p>
-        A longer, more thorough, blog post will come out when we enter beta release.
-      </p>
+      {readMore}
       <h2>Alpha User Yield Farming</h2>
       <p>
         The first $100,000 worth of liquidity miners will earn all
@@ -40,6 +39,7 @@ export default function Home() {
         <li>Be among the first $100,000 worth of people to do so</li>
         <li>Optional: Let me know if you find any bugs! (via Twitter or UMA Discord)</li>
       </ol>
+      {readMore}
     </>
   );
 }
