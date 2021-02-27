@@ -15,6 +15,14 @@ const Footer = () => {
           evanon0ping.eth
         </a>
       </p>
+      <p>
+        <a
+          href="https://github.com/evanmays/tendies-exchange"
+          alt="Tendies Exchange Code on Github"
+        >
+          Github
+        </a>
+      </p>
       <a href="https://umaproject.org">
         <img
           src="/UMAInside.png"
