@@ -32,14 +32,14 @@ const trading_config = {
     type: "balancer",
     balancerTokenIn: "0x90f802C7E8fb5D40B0De583e34C065A3bd2020D8",
     balancerTokenOut: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-    lookback: 1,
+    lookback: 0,
     twapLength: 1,//7200
     balancerAddress: "0x5e065d534d1daaf9e6222afa1d09e7dac6cbd0f7"
   },
   ["0x14a046c066266da6b8b8C4D2de4AfBEeCd53a262".toLowerCase()]: {
      type: "uniswap",
      uniswapAddress: "0xd8ecab1d50c3335d01885c17b1ce498105238f24",
-     twapLength: 7200,
+     twapLength: 2, // Essentially turns the TWAP off since block times are >> 2 seconds.
      lookback: 0
    },
   "0x0": { // example
