@@ -185,7 +185,7 @@ const SynthStats = () => {
       </span>
       <LayoutRow>
         <LayoutBox title="Global Collateralization Ratio" text={globalRatio.toLocaleString('en-US', { minimumFractionDigits: 0 })} />
-        <LayoutBox title={`Token's Trading Price (${tradingPriceUnits})`} text="TODO" />
+        <LayoutBox title={`Token's Trading Price (${tradingPriceUnits})`} text={tradingPrice.toLocaleString('en-US', { minimumFractionDigits: 4 })} />
       </LayoutRow>
       <LayoutRow>
         <LayoutBox
