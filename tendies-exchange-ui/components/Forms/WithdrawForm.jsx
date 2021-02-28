@@ -77,11 +77,11 @@ const SubmitButtons = ({ globalRatio }) => {
           <button type="submit" disabled={isSubmitting || !shouldCompleteSlowWithdraw}>Complete Slow Withdraw</button>
           <p>
             Note: Because your resulting collaterlization ratio is below the
-            global collaterlization ratio (
+            GCR (
             {globalRatio.toFixed(3)}
             ), you must wait 2 hours.
             {' '}
-            <a href="https://docs.umaproject.org/synthetic-tokens/expiring-synthetic-tokens#slow-withdrawal">Read more here</a>
+            <a href="https://docs.umaproject.org/synthetic-tokens/expiring-synthetic-tokens#slow-withdrawal">Read more.</a>
           </p>
         </>
       )
