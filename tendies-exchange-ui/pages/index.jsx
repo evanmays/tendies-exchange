@@ -1,3 +1,54 @@
+import {
+  useRecoilValue,
+} from 'recoil';
+import { currentTokenStatsSelector } from '../atoms/selectors';
+const LiquidityMiningProgressBar = () => {
+  const { uniswapPoolTotalLiquidity } = useRecoilValue(currentTokenStatsSelector);
+  const targetTotalLiquidity = 100e3;
+  let percentComplete = Math.max(1.0, uniswapPoolTotalLiquidity / targetTotalLiquidity * 100);
+  const containerStyle = {
+    border: '3px solid #F1E8B8',
+    borderRadius: '20px',
+    padding:40,
+    background:"black",
+    margin: "40px 0px"
+  };
+  const outerStyle = {
+    height: 30,
+    width: "100%",
+    background: "#191919",
+    borderRadius: 25,
+    padding: 10,
+    marginBottom: 12
+  }
+  const innerStyle = {
+    height: "100%",
+    width: parseFloat(percentComplete) + "%",
+    background: "#F1E8B8",
+    borderTopRightRadius: 8,
+    borderBottomRightRadius: 8,
+    borderTopLeftRadius: 20,
+    borderBottomLeftRadius: 20,
+    overflow: "visible"
+  }
+  const spaceBetweenStyle = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  };
+  return (
+    <div style={containerStyle}>
+      <div style={outerStyle}>
+        <div style={innerStyle} />
+      </div>
+      <div style={spaceBetweenStyle}>
+        <span>Current: ${uniswapPoolTotalLiquidity.toLocaleString('en-US', { maximumFractionDigits: 0 })} USD</span>
+        <span>Target: ${(targetTotalLiquidity).toLocaleString('en-US', { maximumFractionDigits: 0 })} USD</span>
+      </div>
+    </div>
+  )
+}
 export default function Home() {
   const readMore = <p><a href="https://evanmays.com/tendiesexchange.html">Read more here</a></p>
   return (
@@ -22,6 +73,7 @@ export default function Home() {
         of my UMA developer mining rewards for the lifetime of CAR-USDC-MAR21. I expect this is somewhere
         around 100% APY although I can&apos;t be sure.
       </p>
+      <LiquidityMiningProgressBar />
       <p>
         There may or may not be an NFT
         airdropped to your address that guarantees this benefit on

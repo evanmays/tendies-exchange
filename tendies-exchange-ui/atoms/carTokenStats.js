@@ -9,6 +9,7 @@ const DEFAULT_CAR_TOKEN_STATS = {
   totalMintedTokens: 0.0,
   totalCollateralSupplied: 0.0,
   blockNumber: 0,
+  uniswapPoolTotalLiquidity: 0.0
 };
 
 const carTokenStatsAtom = atom({
