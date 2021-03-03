@@ -20,8 +20,11 @@ const {
   createTokenTradingPricePriceFeed,
   createPriceFeedForEmp
 } = require("./helpers.js")
+const UniswapPoolClient = require("./UniswapPoolClient.js").default;
 const DiscordTransport = require('winston-discord-transport').default; //It's an ES module or whatever
-const options = require('./options-processing.js')
+const options = require('./options-processing.js');
+const uniswapAbi = require('./IUniswapV2Pair.json').abi;
+const erc20Abi = require('./ERC20_ABI.json');
 
 /*
 * Setup constants
@@ -56,6 +59,7 @@ const sponsorsDbRef = db.ref("sponsors").child(options.empAddress.toLowerCase())
 const carDbRef = db.ref("car").child(options.empAddress.toLowerCase());
 const empClient = new ExpiringMultiPartyClient(Logger, uma.expiringMultiParty.abi, web3, options.empAddress, options.collateralDecimals, options.tokenDecimals);
 const getTime = () => Math.round(new Date().getTime() / 1000);
+const uniswapPoolClient = new UniswapPoolClient(Logger, uniswapAbi, erc20Abi, web3, options.uniswapPoolAddress, getTime, false);
 
 /*
 * Start Server
@@ -75,11 +79,12 @@ const main = async () => {
   }
 
   pollUpdates(empClient.update.bind(empClient), Logger, web3, options.node, ONE_SECOND_DELAY, endProcess, 'Sponsor positions emp');
+  pollUpdates(uniswapPoolClient.update.bind(uniswapPoolClient), Logger, web3, options.node, ONE_SECOND_DELAY, endProcess, 'Uniswap pool liquidity');
   pollUpdates(priceIdentifierPriceFeed.update.bind(priceIdentifierPriceFeed), Logger, web3, options.node, ONE_SECOND_DELAY, endProcess, 'Price identifier price');
   pollUpdates(tradingPricePriceFeed.update.bind(tradingPricePriceFeed), Logger, web3, options.node, ONE_SECOND_DELAY, endProcess, 'Token trading price');
   await delay(3 * ONE_SECOND_DELAY); //Avoid saving empty data to disk with this delay
   pollSaveToDisk(sponsorsDbRef, () => getSponsors(empClient, options.tokenDecimals, options.collateralDecimals), Logger, ONE_SECOND_DELAY, 'Sponsors Stats');
-  pollSaveToDisk(carDbRef, () => getStats(empClient, priceIdentifierPriceFeed, tradingPricePriceFeed, options.tokenDecimals, options.collateralDecimals), Logger, ONE_SECOND_DELAY, 'Token Stats');
+  pollSaveToDisk(carDbRef, () => getStats(empClient, uniswapPoolClient, priceIdentifierPriceFeed, tradingPricePriceFeed, options.tokenDecimals, options.collateralDecimals), Logger, ONE_SECOND_DELAY, 'Token Stats');
 }
 
 main()

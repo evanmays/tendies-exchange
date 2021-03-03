@@ -113,8 +113,9 @@ const getSponsors = (empClient, tokenDecimals, collateralDecimals) => {
   return Object.fromEntries(keyValueTuples);
 }
 
-const getStats = (empClient, priceIdentifierPriceFeed, tradingPricePriceFeed, tokenDecimals, collateralDecimals) => {
+const getStats = (empClient, uniswapPool, priceIdentifierPriceFeed, tradingPricePriceFeed, tokenDecimals, collateralDecimals) => {
   const empPrice = priceIdentifierPriceFeed.getCurrentPrice()?.toNumber() / Math.pow(10, collateralDecimals); //collateralDecimals instead of priceIdentifierPriceFeed.getPriceFeedDecimals()
+  const uniswapPoolTotalLiquidity = uniswapPool.getCurrentLiquidity();
   const totalMintedTokens = empClient.getAllPositions()
     .map(item => parseInt(item.numTokens))
     .map(a => a / Math.pow(10, tokenDecimals))
@@ -133,6 +134,7 @@ const getStats = (empClient, priceIdentifierPriceFeed, tradingPricePriceFeed, to
     totalMintedTokens,
     totalCollateralSupplied,
     blockNumber: 0,
+    uniswapPoolTotalLiquidity
   }
   return stats;
 }

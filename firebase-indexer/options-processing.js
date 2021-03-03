@@ -25,6 +25,7 @@ const myParseAddress = (value, dummyPrevious) => {
 const program = new Command();
 program
   .requiredOption('-n, --node <string>', 'The URL for the ethereum full node', myParseUrl)
+  .requiredOption('-u, --uniswap-pool-address <string>', 'The ethereum address for the Uniswap pool contract that is holding liquidity for the synth.', myParseAddress)
   .requiredOption('-e, --emp-address <string>', 'The ethereum address for the EMP contract to track', myParseAddress)
   .requiredOption('-t, --token-decimals <int>', 'The number of decimals the synthetic token has', myParseInt)
   .requiredOption('-c, --collateral-decimals <int>', 'The number of decimals the collateral token has', myParseInt)
