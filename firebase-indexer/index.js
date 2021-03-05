@@ -82,7 +82,7 @@ const main = async () => {
   pollUpdates(uniswapPoolClient.update.bind(uniswapPoolClient), Logger, web3, options.node, ONE_SECOND_DELAY, endProcess, 'Uniswap pool liquidity');
   pollUpdates(priceIdentifierPriceFeed.update.bind(priceIdentifierPriceFeed), Logger, web3, options.node, ONE_SECOND_DELAY, endProcess, 'Price identifier price');
   pollUpdates(tradingPricePriceFeed.update.bind(tradingPricePriceFeed), Logger, web3, options.node, ONE_SECOND_DELAY, endProcess, 'Token trading price');
-  await delay(3 * ONE_SECOND_DELAY); //Avoid saving empty data to disk with this delay
+  await delay(10 * ONE_SECOND_DELAY); //Avoid saving empty data to disk with this delay
   pollSaveToDisk(sponsorsDbRef, () => getSponsors(empClient, options.tokenDecimals, options.collateralDecimals), Logger, ONE_SECOND_DELAY, 'Sponsors Stats');
   pollSaveToDisk(carDbRef, () => getStats(empClient, uniswapPoolClient, priceIdentifierPriceFeed, tradingPricePriceFeed, options.tokenDecimals, options.collateralDecimals), Logger, ONE_SECOND_DELAY, 'Token Stats');
 }
