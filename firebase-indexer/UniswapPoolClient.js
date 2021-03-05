@@ -58,28 +58,14 @@ class UniswapPoolClient {
     const currentTime = await this.getTime();
     const latestBlockNumber = (await this.web3.eth.getBlock("latest")).number;
 
+    //Potential improvement: Start incrementing this fromBlock once we have some events cached locally. Make it event.blockNumber + 1 or something
     const fromBlock = 11500000; // Dec-22-2020
 
-    const events = await this._getSortedSyncEvents(fromBlock).then(newEvents => {
-      // Grabs the timestamps for all blocks, but avoids re-querying by .then-ing any cached blocks.
-      return Promise.all(
-        newEvents.map(event => {
-          // If there is nothing in the cache for this block number, add a new promise that will resolve to the block.
-          if (!this.blocks[event.blockNumber]) {
-            this.blocks[event.blockNumber] = this.web3.eth
-              .getBlock(event.blockNumber)
-              .then(block => ({ timestamp: block.timestamp, number: block.number }));
-          }
-
-          // Add a .then to the promise that sets the timestamp (and price) for this event after the promise resolves.
-          return this.blocks[event.blockNumber].then(block => {
-            event.timestamp = block.timestamp;
-            event.currentLiquidity = this._getLiquidityFromSyncEvent(event);
-            return event;
-          });
-        })
-      );
-    });
+    const rawEvents = await this._getSortedSyncEvents(fromBlock)
+    const events = rawEvents.map(event => (
+      { blockNumber: event.blockNumber, currentLiquidity: this._getLiquidityFromSyncEvent(event) }
+    ));
+    // Note: blockNumber isn't unique per event. Some events may have the same block number.
 
     // If there are still no prices, return null to allow the user to handle the absence of data.
     if (events.length === 0) {
@@ -89,12 +75,14 @@ class UniswapPoolClient {
     }
 
     // Filter out events where price is null.
-    this.events = events.filter(e => e.price !== null);
+    this.events = events.filter(e => e.currentLiquidity !== null);
 
     // Liquidity at the end of the most recent block.
     this.currentLiquidity = this.events[this.events.length - 1].currentLiquidity;
 
     this.lastUpdateTime = currentTime;
+
+    this.logger.debug({message: "Uniswap Pool state updated", lastUpdateLiquidity: this.currentLiquidity});
   }
 
   async _getSortedSyncEvents(fromBlock) {
