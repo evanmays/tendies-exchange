@@ -58,8 +58,9 @@ const db = admin.database();
 const sponsorsDbRef = db.ref("sponsors").child(options.empAddress.toLowerCase());
 const carDbRef = db.ref("car").child(options.empAddress.toLowerCase());
 const empClient = new ExpiringMultiPartyClient(Logger, uma.expiringMultiParty.abi, web3, options.empAddress, options.collateralDecimals, options.tokenDecimals);
+const uniswapPoolClient = new UniswapPoolClient(Logger, uniswapAbi, erc20Abi, web3, options.uniswapPoolAddress, false);
 const getTime = () => Math.round(new Date().getTime() / 1000);
-const uniswapPoolClient = new UniswapPoolClient(Logger, uniswapAbi, erc20Abi, web3, options.uniswapPoolAddress, getTime, false);
+
 
 /*
 * Start Server

@@ -6,13 +6,11 @@ class UniswapPoolClient {
     erc20Abi,
     web3,
     uniswapAddress,
-    getTime,
     shouldUseTokenZero = True,
     blocks = {}
   ) {
     this.logger = logger;
     this.web3 = web3;
-    this.getTime = getTime;
 
     // Create Uniswap contract
     this.uniswap = new web3.eth.Contract(uniswapAbi, uniswapAddress);
@@ -59,7 +57,6 @@ class UniswapPoolClient {
       }
     }
 
-    const currentTime = await this.getTime();
     const latestBlockNumber = (await this.web3.eth.getBlock("latest")).number;
 
     const events = (await this._getSortedSyncEvents(this.fromBlock))
@@ -80,8 +77,6 @@ class UniswapPoolClient {
 
     // Liquidity at the end of the most recent block.
     this.currentLiquidity = this.events[this.events.length - 1].currentLiquidity;
-
-    this.lastUpdateTime = currentTime;
 
     // On next update, start from one block after where this update ended
     this.fromBlock = this.events[this.events.length - 1].blockNumber + 1
