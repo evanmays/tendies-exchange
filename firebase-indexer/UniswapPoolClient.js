@@ -27,6 +27,10 @@ class UniswapPoolClient {
     this.toBN = this.web3.utils.toBN;
     this.toWei = this.web3.utils.toWei;
     this.blocks = blocks;
+
+    // Random initializations
+    this.events = [];
+    this.fromBlock = 11500000; // Dec-22-2020
   }
 
   getCurrentLiquidity() {
@@ -58,29 +62,29 @@ class UniswapPoolClient {
     const currentTime = await this.getTime();
     const latestBlockNumber = (await this.web3.eth.getBlock("latest")).number;
 
-    //Potential improvement: Start incrementing this fromBlock once we have some events cached locally. Make it event.blockNumber + 1 or something
-    const fromBlock = 11500000; // Dec-22-2020
-
-    const rawEvents = await this._getSortedSyncEvents(fromBlock)
-    const events = rawEvents.map(event => (
+    const events = (await this._getSortedSyncEvents(this.fromBlock))
+    .map(event => (
       { blockNumber: event.blockNumber, currentLiquidity: this._getLiquidityFromSyncEvent(event) }
-    ));
-    // Note: blockNumber isn't unique per event. Some events may have the same block number.
+    )) // Note: blockNumber isn't unique per event. Some events may have the same block number.
+    .filter(e => e.currentLiquidity !== null) // Filter out events where price is null.
+
+    // Update internal state
+    this.events = this.events.concat(events);
 
     // If there are still no prices, return null to allow the user to handle the absence of data.
-    if (events.length === 0) {
+    if (this.events.length === 0) {
       this.currentLiquidity = null;
-      this.events = [];
       return;
     }
 
-    // Filter out events where price is null.
-    this.events = events.filter(e => e.currentLiquidity !== null);
 
     // Liquidity at the end of the most recent block.
     this.currentLiquidity = this.events[this.events.length - 1].currentLiquidity;
 
     this.lastUpdateTime = currentTime;
+
+    // On next update, start from one block after where this update ended
+    this.fromBlock = this.events[this.events.length - 1].blockNumber + 1
 
     this.logger.debug({message: "Uniswap Pool state updated", lastUpdateLiquidity: this.currentLiquidity});
   }
