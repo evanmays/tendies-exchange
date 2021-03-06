@@ -2,11 +2,11 @@ import json
 import sys
 import time
 from web3 import Web3
-from database import Database
+from sqlDatabase import SqlDatabase
 
 CONFIRMATIONS_REQUIRED = 20
 WINDOW_SIZE = 100
-FILENAME = "borrow_rate_per_block.json"
+FILENAME = "borrow_rate_per_block.db"
 PROVIDER_URL = ""
 COMPOUND_USDC_ADDRESS = "0x39AA39c021dfbaE8faC545936693aC917d5E7563"
 COMPOUND_USDC_ABI_FILE = "cUSDC_ABI.json"
@@ -18,8 +18,7 @@ def getUSDCTokenContract(web3):
         abi = json.load(compound_usdc_abi)
         return web3.eth.contract(abi=abi, address=COMPOUND_USDC_ADDRESS)
 
-db = Database(FILENAME)
-cache = db.loadOrCreateDictionary()
+cache = SqlDatabase(FILENAME)
 web3 = Web3(Web3.HTTPProvider(PROVIDER_URL))
 cUSDC = getUSDCTokenContract(web3)
 
@@ -42,7 +41,6 @@ while True:
             print("Retriving borrow rate from block", i)
             borrow_rate = cUSDC.functions.borrowRatePerBlock().call(block_identifier=i)
             cache[i] = borrow_rate
-            db.save(cache)
 
     print("Sleep for 5 seconds")
     time.sleep(5)
