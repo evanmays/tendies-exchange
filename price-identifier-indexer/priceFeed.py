@@ -1,6 +1,6 @@
 import json
 import sys
-from database import Database
+from sqlDatabase import SqlDatabase
 import math
 import argparse
 
@@ -13,10 +13,10 @@ def getBorrowRatePerBlock(dataset_filename, start_block, end_block):
   2. Get historical data from Compound/Graph Protocol API
   3. Run a small indexing script every minute which calls the getBorrowRate method and indexes this data for later use indexed by block
   """
-  dataset = Database(dataset_filename).loadOrCreateDictionary()
+  dataset = SqlDatabase(dataset_filename)
 
   # Filter blocks in target range
-  filtered_dataset = {k: v for k, v in dataset.items() if start_block <= k <= end_block}
+  filtered_dataset = dataset.selectInRange(start_block, end_block)
 
   # Validate dictionary has all the blocks in our range
   if not len(filtered_dataset) == end_block - start_block + 1:
@@ -40,7 +40,7 @@ def getAPRforMonth(dataset_filename, start_block, end_block, expected_blocks_per
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Calculate rolling 30 day geometric mean of Compound USDC borrow APR')
-    parser.add_argument('dataset_filename', type=str, help='The file of the borrowRatePerBlock dataset')
+    parser.add_argument('dataset_filename', type=str, help='The file of the borrowRatePerBlock sqlite3 database dataset')
     parser.add_argument('--start-block', type=int, help='The block at the beginning of the 30 day period (inclusive)', required=True)
     parser.add_argument('--end-block', type=int, help='The block for the DVM price request (end of 30 day period, inclusive)', required=True)
     parser.add_argument('--expected-blocks-per-year', type=int, help='The expected number of ethereum blocks per year.', default=(6533 * 365))

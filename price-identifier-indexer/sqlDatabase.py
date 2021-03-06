@@ -11,10 +11,16 @@ class SqlDatabase():
         self.conn.commit()
 
     def __getitem__(self, key):
-        print(key)
         self.cursor.execute("SELECT borrowRate FROM compound WHERE blockNumber = ?", (key,))
         return self.cursor.fetchone()
 
     def __contains__(self, item):
         self.cursor.execute("SELECT borrowRate FROM compound WHERE blockNumber = ?", (item,))
         return not self.cursor.fetchone() is None
+
+    def selectInRange(self, start, end):
+        # start and end are inclusive
+        self.cursor.execute("SELECT blockNumber, borrowRate FROM compound WHERE blockNumber >= ? AND blockNumber <= ?", (start, end))
+        rows = self.cursor.fetchall()
+        blockNumberToBorrowRateDict = {row[0]: row[1] for row in rows}
+        return blockNumberToBorrowRateDict
