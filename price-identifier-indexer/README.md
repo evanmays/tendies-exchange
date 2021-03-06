@@ -9,9 +9,15 @@ On the expiration date, the price identifier switches to the 28 day average borr
 ## How to use the code
 At synth expiration, the CAR token is worth the 28 day average borrowing rate. This is done by looking at all the blocks over the past 28 days, calling the cToken's `borrowRatePerBlock()`, then using the geometric mean formula.
 
-`indexer.py` indexes the borrow rate per block in a json file.
+`indexer.py` indexes the borrow rate per block in a sqlite3 database file.
 
-Edit `indexer.py` to replace `PROVIDER_URL` variable with your Ethereum node URL (http or ws included). Also adjust the `WINDOW_SIZE` variable. This variable tells the script how far back to index. If you leave it as default, let the script run for an entire month to get a months worth of data.
+`python3 indexer.py --provider-url http://localhost:8545`
+
+If you'd like to increase the indexing window do something like this
+
+`python3 indexer.py --provider-url http://localhost:8545 --window-size 400000`
+
+If you are using infura (worried about doing a lot of requests in short period of time), leave window size as default and run this script during the entire month to get a months worth of data. As in, if you want data for all of April, start running the script April 1st, then stop April 30th.
 
 `priceFeed.py` takes that json file and calculates the average from the start block to the end block. You wan't the end block to be the CAR token expiration block, and the start block to be 28 days before the end block.
 
