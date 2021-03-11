@@ -35,7 +35,7 @@ def geometricMean(dataset_list):
 def getAPRforMonth(dataset_filename, start_block, end_block, expected_blocks_per_year):
   borrow_rate_of_block = getBorrowRatePerBlock(dataset_filename, start_block, end_block)
   avg_borrow_rate_per_block = geometricMean(borrow_rate_of_block)
-  apr = avg_borrow_rate_per_block ** expected_blocks_per_year
+  apr = avg_borrow_rate_per_block ** expected_blocks_per_year - 1.0
   return apr
 
 if __name__ == "__main__":
