@@ -121,7 +121,7 @@ const App = ({ Component, pageProps }) => (
             margin: 0, padding: 6, background: '#2172E5', color: 'white', fontSize: 11, textAlign: 'center',
           }}
           >
-            Welcome to the Alpha release, Caveat Emptor
+            CAR-USDC-MAR21 has expired at $8.19USD. Do not mint.{/*Welcome to the Alpha release, Caveat Emptor*/}
           </div>
         )}
       <AppWrapper>
